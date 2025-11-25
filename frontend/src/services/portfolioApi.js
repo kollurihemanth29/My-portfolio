@@ -1,141 +1,118 @@
 // Portfolio API Service
-// Demonstrates REST API consumption and data handling
+// Auto-detect Backend URL + Clean Fetch Wrapper
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
-const API_BASE_URL = `${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api`;
+// ---------------------------------------------
+// ✅ FIX: Auto-select API BASE (Production + Local)
+// ---------------------------------------------
+
+// Ensure API_BASE_URL always ends with /api
+const API_BASE_URL = process.env.REACT_APP_API_URL && process.env.REACT_APP_API_URL.endsWith('/api')
+  ? process.env.REACT_APP_API_URL
+  : (process.env.REACT_APP_API_URL ? process.env.REACT_APP_API_URL + '/api' : '/api');
+
+console.log("📡 Using Backend API:", API_BASE_URL);
 
 // Generic API call handler with error handling
 const apiCall = async (endpoint, options = {}) => {
   try {
     const response = await fetch(`${API_BASE_URL}${endpoint}`, {
       headers: {
-        'Content-Type': 'application/json',
-        ...options.headers
+        "Content-Type": "application/json",
+        ...options.headers,
       },
-      ...options
+      ...options,
     });
 
     if (!response.ok) {
       throw new Error(`API Error: ${response.status} ${response.statusText}`);
     }
 
-    const data = await response.json();
-    return data;
+    return await response.json();
   } catch (error) {
-    console.error('API Call Failed:', error);
+    console.error("❌ API Call Failed:", error);
     throw error;
   }
 };
 
-// Portfolio Services
+// ---------------------------------------------
+// PORTFOLIO SERVICES
+// ---------------------------------------------
 export const portfolioService = {
-  // Get portfolio overview (featured projects + recent certifications)
-  getOverview: async () => {
-    return await apiCall('/portfolio');
-  },
-
-  // Get complete portfolio data
-  getCompletePortfolio: async () => {
-    return await apiCall('/portfolio/complete');
-  },
-
-  // Search across portfolio
-  searchPortfolio: async (searchTerm) => {
-    return await apiCall(`/portfolio/search?q=${encodeURIComponent(searchTerm)}`);
-  }
+  getOverview: async () => apiCall("/portfolio"),
+  getCompletePortfolio: async () => apiCall("/portfolio/complete"),
+  searchPortfolio: async (searchTerm) =>
+    apiCall(`/portfolio/search?q=${encodeURIComponent(searchTerm)}`),
 };
 
-// Projects Services
+// ---------------------------------------------
+// PROJECT SERVICES
+// ---------------------------------------------
 export const projectsService = {
-  // Get all projects
-  getAllProjects: async () => {
-    return await apiCall('/projects');
-  },
+  getAllProjects: async () => apiCall("/projects"),
 
-  // Get project by ID
-  getProjectById: async (id) => {
-    return await apiCall(`/projects/${id}`);
-  },
+  getProjectById: async (id) => apiCall(`/projects/${id}`),
 
-  // Get projects by status
-  getProjectsByStatus: async (status) => {
-    return await apiCall(`/projects?status=${status}`);
-  },
+  getProjectsByStatus: async (status) =>
+    apiCall(`/projects?status=${status}`),
 
-  // Get featured projects
-  getFeaturedProjects: async () => {
-    return await apiCall('/projects?featured=true');
-  }
+  getFeaturedProjects: async () => apiCall("/projects?featured=true"),
 };
 
-// Certifications Services
+// ---------------------------------------------
+// CERTIFICATION SERVICES
+// ---------------------------------------------
 export const certificationsService = {
-  // Get all certifications
-  getAllCertifications: async () => {
-    return await apiCall('/certifications');
-  },
+  getAllCertifications: async () => apiCall("/certifications"),
 
-  // Get certification by ID
-  getCertificationById: async (id) => {
-    return await apiCall(`/certifications/${id}`);
-  },
+  getCertificationById: async (id) => apiCall(`/certifications/${id}`),
 
-  // Get certifications by category
-  getCertificationsByCategory: async (category) => {
-    return await apiCall(`/certifications/category/${category}`);
-  },
+  getCertificationsByCategory: async (category) =>
+    apiCall(`/certifications/category/${category}`),
 
-  // Get featured certifications
-  getFeaturedCertifications: async () => {
-    return await apiCall('/certifications?featured=true');
-  },
+  getFeaturedCertifications: async () =>
+    apiCall("/certifications?featured=true"),
 
-  // Get certification statistics
-  getCertificationStats: async () => {
-    return await apiCall('/certifications/stats');
-  },
+  getCertificationStats: async () => apiCall("/certifications/stats"),
 
-  // Filter certifications
   filterCertifications: async (filters) => {
     const params = new URLSearchParams();
-    
-    if (filters.category) params.append('category', filters.category);
-    if (filters.provider) params.append('provider', filters.provider);
-    if (filters.status) params.append('status', filters.status);
 
-    const queryString = params.toString();
-    return await apiCall(`/certifications${queryString ? `?${queryString}` : ''}`);
-  }
+    if (filters.category) params.append("category", filters.category);
+    if (filters.provider) params.append("provider", filters.provider);
+    if (filters.status) params.append("status", filters.status);
+
+    return apiCall(`/certifications?${params.toString()}`);
+  },
 };
 
-// React Hook for portfolio data
+// ---------------------------------------------
+// CUSTOM HOOK — PORTFOLIO
+// ---------------------------------------------
 export const usePortfolioData = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const load = async () => {
       try {
-        setLoading(true);
         const result = await portfolioService.getOverview();
         setData(result.data);
         setError(null);
       } catch (err) {
         setError(err.message);
-        setData(null);
       } finally {
         setLoading(false);
       }
     };
-
-    fetchData();
+    load();
   }, []);
 
   const refetch = async () => {
-    setLoading(true);
     try {
+      setLoading(true);
       const result = await portfolioService.getOverview();
       setData(result.data);
       setError(null);
@@ -149,43 +126,41 @@ export const usePortfolioData = () => {
   return { data, loading, error, refetch };
 };
 
-// Example usage for Projects component
+// ---------------------------------------------
+// CUSTOM HOOK — PROJECTS
+// ---------------------------------------------
 export const useProjectsData = (filters = {}) => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchProjects = async () => {
+    const load = async () => {
       try {
-        setLoading(true);
         let result;
-        
-        if (filters.featured) {
-          result = await projectsService.getFeaturedProjects();
-        } else if (filters.status) {
-          result = await projectsService.getProjectsByStatus(filters.status);
-        } else {
-          result = await projectsService.getAllProjects();
-        }
-        
+
+        if (filters.featured) result = await projectsService.getFeaturedProjects();
+        else if (filters.status) result = await projectsService.getProjectsByStatus(filters.status);
+        else result = await projectsService.getAllProjects();
+
         setProjects(result.data);
         setError(null);
       } catch (err) {
         setError(err.message);
-        setProjects([]);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchProjects();
+    load();
   }, [filters]);
 
   return { projects, loading, error };
 };
 
-// Example usage for Certifications component
+// ---------------------------------------------
+// CUSTOM HOOK — CERTIFICATIONS
+// ---------------------------------------------
 export const useCertificationsData = (category = null) => {
   const [certifications, setCertifications] = useState([]);
   const [stats, setStats] = useState(null);
@@ -193,21 +168,14 @@ export const useCertificationsData = (category = null) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchCertifications = async () => {
+    const load = async () => {
       try {
-        setLoading(true);
-        
-        // Fetch certifications
-        let certsResult;
-        if (category) {
-          certsResult = await certificationsService.getCertificationsByCategory(category);
-        } else {
-          certsResult = await certificationsService.getAllCertifications();
-        }
-        
-        // Fetch stats
-        const statsResult = await certificationsService.getCertificationStats();
-        
+        let certsResult = category
+          ? await certificationsService.getCertificationsByCategory(category)
+          : await certificationsService.getAllCertifications();
+
+        let statsResult = await certificationsService.getCertificationStats();
+
         setCertifications(certsResult.data);
         setStats(statsResult.data);
         setError(null);
@@ -220,7 +188,7 @@ export const useCertificationsData = (category = null) => {
       }
     };
 
-    fetchCertifications();
+    load();
   }, [category]);
 
   return { certifications, stats, loading, error };
@@ -232,5 +200,5 @@ export default {
   certificationsService,
   usePortfolioData,
   useProjectsData,
-  useCertificationsData
+  useCertificationsData,
 };

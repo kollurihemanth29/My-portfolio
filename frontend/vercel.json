@@ -4,5 +4,15 @@
   "public": true,
   "github": {
     "silent": true
-  }
+  },
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://my-portfolio-f270x9ve6-kolluri-hemanths-projects.vercel.app/api/:path*"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
 }

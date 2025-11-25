@@ -3,8 +3,15 @@ class ChatService {
   constructor() {
     this.apiKey = 'sk-default-V6WxgXjv3XYUTZCeojLNTiW61eH9Ha7W';
     this.agentId = '69259a68c69ec8d9a07849bc';
-    this.baseUrl = `${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/chat`;
-    this.projectsApiUrl = `${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/api/projects`;
+    
+    // Use relative URLs for production (Vercel rewrites) or localhost for development
+    const apiBase = process.env.REACT_APP_API_URL || 
+                    (process.env.NODE_ENV === 'production' ? '' : 'http://localhost:5000');
+    
+    this.baseUrl = `${apiBase}/api/chat`;
+    this.projectsApiUrl = `${apiBase}/api/projects`;
+    
+    console.log('🔗 ChatService initialized with:', this.baseUrl);
   }
 
   // System persona prompt

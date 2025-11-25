@@ -5,10 +5,9 @@ const connectDB = async () => {
   try {
     const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/portfolio';
     
-    const conn = await mongoose.connect(mongoURI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    // Removed deprecated options (useNewUrlParser, useUnifiedTopology)
+    // These are default in Mongoose 7+
+    const conn = await mongoose.connect(mongoURI);
 
     logger.info(`MongoDB Connected: ${conn.connection.host}`);
     console.log(`📦 MongoDB Connected: ${conn.connection.host}`);
