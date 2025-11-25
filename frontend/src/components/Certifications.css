@@ -1,0 +1,469 @@
+:root {
+  --hero-bg: #050510;
+  --hero-fg: #f9fafb;
+  --hero-muted: #9ca3af;
+  --hero-blue: #60a5fa;
+  --hero-purple: #a855f7;
+  --hero-pink: #ec4899;
+  --hero-aqua: #22d3ee;
+  --hero-green: #22c55e;
+  --hero-radius-lg: 24px;
+  --hero-radius-xl: 32px;
+  --hero-ease-smooth: cubic-bezier(0.18, 0.89, 0.32, 1.28);
+  --hero-ease-soft: cubic-bezier(0.33, 1, 0.68, 1);
+  --hero-shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.8);
+}
+
+.certifications-hero {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  min-height: calc(100vh - 80px);
+  background: radial-gradient(circle at top left, #020617 0, #020617 35%, #000 85%);
+  color: var(--hero-fg);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  display: flex;
+  align-items: center;
+  padding: 80px 24px 40px;
+  overflow: hidden;
+}
+
+/* Background Elements */
+.certifications-bg-gradient {
+  position: absolute;
+  inset: -30%;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(96, 165, 250, 0.18), transparent 55%),
+    radial-gradient(circle at 80% 20%, rgba(168, 85, 247, 0.18), transparent 55%),
+    radial-gradient(circle at 10% 100%, rgba(236, 72, 153, 0.18), transparent 45%);
+  opacity: 0.85;
+  pointer-events: none;
+  z-index: 1;
+  filter: blur(1px);
+}
+
+.certifications-bg-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(148, 163, 184, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.08) 1px, transparent 1px);
+  background-size: 40px 40px;
+  opacity: 0.2;
+  mix-blend-mode: soft-light;
+  z-index: 2;
+}
+
+.certifications-orb {
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(40px);
+  opacity: 0.9;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  z-index: 1;
+}
+
+.certifications-orb--blue {
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.9), transparent);
+  top: 5%;
+  left: 8%;
+  animation: certifications-orb-float-1 20s ease-in-out infinite alternate;
+}
+
+.certifications-orb--purple {
+  width: 260px;
+  height: 260px;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.9), transparent);
+  bottom: -5%;
+  right: 5%;
+  animation: certifications-orb-float-2 22s ease-in-out infinite alternate;
+}
+
+.certifications-orb--aqua {
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(34, 211, 238, 0.9), transparent);
+  top: 45%;
+  right: 25%;
+  animation: certifications-orb-float-3 18s ease-in-out infinite alternate;
+}
+
+@keyframes certifications-orb-float-1 {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(30px, -20px) rotate(180deg); }
+}
+
+@keyframes certifications-orb-float-2 {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(-25px, 15px) rotate(-180deg); }
+}
+
+@keyframes certifications-orb-float-3 {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(20px, 25px) rotate(180deg); }
+}
+
+/* Container */
+.certifications-container {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* Header */
+.certifications-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.certifications-label {
+  display: inline-block;
+  padding: 4px 12px;
+  background: rgba(34, 211, 238, 0.15);
+  border: 1px solid rgba(34, 211, 238, 0.3);
+  border-radius: 50px;
+  color: var(--hero-aqua);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 12px;
+}
+
+.certifications-title {
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--hero-fg) 0%, var(--hero-aqua) 50%, var(--hero-purple) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 12px;
+  line-height: 1.2;
+}
+
+/* Error Banner */
+.error-banner {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 8px;
+  color: #fca5a5;
+}
+
+/* Grid Layout */
+.certifications-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex: 1;
+  align-items: stretch;
+}
+
+/* Certification Cards */
+.certification-card {
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  border-radius: var(--hero-radius-lg);
+  overflow: hidden;
+  transition: all 0.4s var(--hero-ease-smooth);
+  position: relative;
+  height: 100%;
+  min-height: 140px;
+  display: flex;
+  flex-direction: column;
+}
+
+.certification-card:hover {
+  transform: translateY(-12px);
+  border-color: rgba(96, 165, 250, 0.3);
+  box-shadow: 
+    0 32px 64px rgba(0, 0, 0, 0.4),
+    0 0 40px rgba(96, 165, 250, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Badge */
+.certification-badge {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(135deg, var(--hero-aqua), var(--hero-blue));
+  flex-shrink: 0;
+}
+
+.badge-icon {
+  font-size: 1rem;
+}
+
+/* Content */
+.certification-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0.75rem;
+}
+
+.certification-header {
+  margin-bottom: 0.5rem;
+  flex-shrink: 0;
+}
+
+.certification-title {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+  color: #ffffff;
+  line-height: 1.2;
+}
+
+.certification-provider {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.provider-name {
+  color: var(--hero-aqua);
+  font-weight: 600;
+}
+
+.issue-date {
+  color: #94a3b8;
+  font-size: 0.875rem;
+}
+
+.certification-description {
+  color: #cbd5e1;
+  line-height: 1.4;
+  margin-bottom: 0.5rem;
+  font-size: 0.8rem;
+  flex-grow: 1;
+}
+
+/* Skills */
+.certification-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  margin-bottom: 0.5rem;
+  flex-shrink: 0;
+}
+
+.skill-tag {
+  padding: 0.2rem 0.4rem;
+  background: rgba(34, 211, 238, 0.2);
+  border: 1px solid rgba(34, 211, 238, 0.3);
+  border-radius: 12px;
+  font-size: 0.65rem;
+  font-weight: 500;
+  color: var(--hero-aqua);
+  transition: all 0.3s ease;
+}
+
+.skill-tag:hover {
+  background: rgba(34, 211, 238, 0.3);
+  transform: translateY(-1px);
+}
+
+/* Actions */
+.certification-actions {
+  margin-top: auto;
+  flex-shrink: 0;
+}
+
+.btn-view-credential {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.4rem 0.8rem;
+  background: linear-gradient(135deg, var(--hero-green), #047857);
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.7rem;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-view-credential:hover {
+  background: linear-gradient(135deg, #047857, #065f46);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(5, 150, 105, 0.3);
+}
+
+/* Loading Spinner */
+.loading-spinner {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.2rem;
+  color: var(--hero-aqua);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .certifications-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .certifications-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+/* --------------------------
+   TOP GRADIENT HEADER
+--------------------------- */
+.cert-card-header {
+  background: linear-gradient(
+    135deg,
+    #ff6adf,
+    #9f56ff,
+    #6e5bff
+  );
+  height: 115px;
+  border-radius: 22px 22px 0 0;
+  padding: 18px 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+/* Left badge */
+.cert-status-badge {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 6px 18px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: #e1ffe8;
+}
+
+/* Right date range */
+.cert-date-range {
+  color: #f4f7ff;
+  opacity: 0.9;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+/* --------------------------
+   CONTENT BODY
+--------------------------- */
+.cert-card-content {
+  padding: 25px 22px 30px;
+}
+
+.cert-card-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+  color: #ffffff;
+}
+
+.cert-card-provider {
+  font-size: 0.95rem;
+  margin-top: 6px;
+  color: #9bb2d6;
+}
+
+/* Skills tags */
+.cert-skills-row {
+  margin-top: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.cert-skill-pill {
+  padding: 6px 12px;
+  font-size: 0.83rem;
+  color: #dce6ff;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+/* --------------------------
+   BUTTONS
+--------------------------- */
+.cert-buttons-row {
+  display: flex;
+  gap: 15px;
+  margin-top: 22px;
+}
+
+/* LEFT — gradient button */
+.cert-btn-gradient {
+  flex: 1;
+  text-align: center;
+  padding: 11px 18px;
+  font-size: 0.9rem;
+  border-radius: 10px;
+  font-weight: 600;
+  color: #ffffff;
+  background: linear-gradient(90deg, #4d4dff, #b38bff);
+  text-decoration: none;
+  transition: 0.3s ease;
+  box-shadow: 0 6px 16px rgba(72, 70, 255, 0.25);
+}
+
+/* Hover glow */
+.cert-btn-gradient:hover {
+  box-shadow: 0 8px 22px rgba(72, 70, 255, 0.45);
+  transform: translateY(-2px);
+}
+
+/* RIGHT — outline button */
+.cert-btn-secondary {
+  flex: 1;
+  text-align: center;
+  padding: 11px 18px;
+  font-size: 0.9rem;
+  border-radius: 10px;
+  font-weight: 600;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.05);
+  color: #d4dbff;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transition: 0.3s ease;
+}
+
+/* Hover */
+.cert-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-2px);
+}
+
+/* --------------------------
+   RESPONSIVE
+--------------------------- */
+
+@media (max-width: 480px) {
+  .cert-buttons-row {
+    flex-direction: column;
+  }
+}

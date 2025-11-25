@@ -1,0 +1,184 @@
+/* ==============================
+   NAVBAR - Hemanth Portfolio Theme
+   ============================== */
+
+.nav-root {
+  position: fixed; /* Fixed position - no scroll */
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: var(--navbar-height); /* Reduced height */
+  padding: 10px 40px; /* Reduced padding */
+  background: var(--bg-panel);
+  color: var(--text-primary);
+  backdrop-filter: var(--glass-blur);
+  z-index: 1000; /* High z-index to stay on top */
+  transition: all 0.4s var(--ease-smooth);
+  border-bottom: 1px solid var(--border-light);
+  box-shadow: var(--shadow-soft);
+  display: flex;
+  align-items: center;
+}
+
+/* Static navbar - no scroll effects needed */
+
+
+.nav-container {
+  width: 100%;
+  max-width: 1500px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%; /* Fill the navbar height */
+}
+
+/* Brand */
+.nav-brand {
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  font-weight: 800;
+  cursor: pointer;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  position: relative;
+  background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  transition: all 0.3s var(--ease-smooth);
+}
+
+.brand-glow {
+  text-shadow: var(--shadow-glow);
+  filter: drop-shadow(0 0 20px rgba(96, 165, 250, 0.6));
+}
+
+/* Desktop Links */
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 48px;
+  align-items: center;
+}
+
+.nav-link {
+  background: none;
+  border: none;
+  font-family: var(--font-main);
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  position: relative;
+  padding: 8px 0;
+  transition: all 0.3s var(--ease-smooth);
+  text-decoration: none;
+}
+
+.nav-link:hover {
+  color: var(--text-primary);
+  transform: translateY(-1px);
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
+  transition: all 0.4s var(--ease-smooth);
+  border-radius: 2px;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+  box-shadow: 0 0 12px rgba(96, 165, 250, 0.6);
+}
+
+/* Mobile Toggle */
+.nav-toggle {
+  display: none;
+  cursor: pointer;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px;
+  border-radius: 8px;
+  transition: all 0.3s var(--ease-smooth);
+}
+
+.nav-toggle:hover {
+  background: var(--glass);
+}
+
+.nav-toggle span {
+  width: 28px;
+  height: 3px;
+  background: var(--text-primary);
+  transition: all 0.3s var(--ease-smooth);
+  border-radius: 4px;
+}
+
+.nav-toggle.active span:nth-child(1) {
+  transform: translateY(9px) rotate(45deg);
+  background: var(--accent-blue);
+}
+
+.nav-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.nav-toggle.active span:nth-child(3) {
+  transform: translateY(-9px) rotate(-45deg);
+  background: var(--accent-blue);
+}
+
+/* Mobile Menu */
+@media (max-width: 768px) {
+  .nav-root {
+    height: 70px; /* Consistent with hero calculation */
+    padding: 15px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-root {
+    height: 65px; /* Consistent with hero calculation */
+    padding: 12px 15px;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 100%;
+    height: auto;
+    padding: 24px;
+    background: var(--bg-panel);
+    border-top: 1px solid var(--border-light);
+    display: none;
+    flex-direction: column;
+    gap: 24px;
+    backdrop-filter: var(--glass-blur);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+  .nav-toggle {
+    display: flex;
+  }
+
+  .nav-link {
+    font-size: 1.1rem;
+    padding: 12px 0;
+    text-align: center;
+  }
+}
