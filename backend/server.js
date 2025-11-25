@@ -25,7 +25,11 @@ const PORT = process.env.PORT || 5000;
 app.use(helmet());
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
-    ? ['https://your-frontend-url.vercel.app', 'https://*.vercel.app']
+    ? [
+        'https://my-portfolio-n5we48tkv-kolluri-hemanths-projects.vercel.app',
+        'https://*.vercel.app',
+        /https:\/\/.*\.vercel\.app$/
+      ]
     : ['http://localhost:3000', 'http://localhost:3001'],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
