@@ -4,14 +4,19 @@ class ChatService {
     this.apiKey = 'sk-default-V6WxgXjv3XYUTZCeojLNTiW61eH9Ha7W';
     this.agentId = '69259a68c69ec8d9a07849bc';
     
-    // Use relative URLs for production (Vercel rewrites) or localhost for development
-    const apiBase = process.env.REACT_APP_API_URL || 
-                    (process.env.NODE_ENV === 'production' ? '' : 'http://localhost:5000');
+    // Use relative URLs - Vercel rewrites will proxy to backend
+    // In production: /api/* -> backend via Vercel rewrite
+    // In development: use localhost
+    const apiBase = process.env.NODE_ENV === 'production' 
+      ? ''  // Empty string = same domain, Vercel rewrites handle it
+      : 'http://localhost:5000';
     
     this.baseUrl = `${apiBase}/api/chat`;
     this.projectsApiUrl = `${apiBase}/api/projects`;
     
     console.log('🔗 ChatService initialized with:', this.baseUrl);
+    console.log('🌍 NODE_ENV:', process.env.NODE_ENV);
+    console.log('📍 Using Vercel rewrites for API proxy');
   }
 
   // System persona prompt

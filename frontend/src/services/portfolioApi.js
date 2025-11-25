@@ -1,3 +1,5 @@
+
+
 // Portfolio API Service
 // Auto-detect Backend URL + Clean Fetch Wrapper
 
@@ -7,12 +9,19 @@ import { useState, useEffect } from "react";
 // ✅ FIX: Auto-select API BASE (Production + Local)
 // ---------------------------------------------
 
-// Ensure API_BASE_URL always ends with /api
-const API_BASE_URL = process.env.REACT_APP_API_URL && process.env.REACT_APP_API_URL.endsWith('/api')
-  ? process.env.REACT_APP_API_URL
-  : (process.env.REACT_APP_API_URL ? process.env.REACT_APP_API_URL + '/api' : '/api');
+// Use relative URLs - Vercel rewrites will proxy to backend
+// In production: /api/* -> backend via Vercel rewrite
+// In development: use localhost or env var
+const API_BASE_URL = process.env.NODE_ENV === 'production'
+  ? '/api'  // Relative path, Vercel rewrites handle it
+  : (process.env.REACT_APP_API_URL 
+      ? (process.env.REACT_APP_API_URL.endsWith('/api') ? process.env.REACT_APP_API_URL : process.env.REACT_APP_API_URL + '/api')
+      : '/api');
 
 console.log("📡 Using Backend API:", API_BASE_URL);
+console.log("🌍 NODE_ENV:", process.env.NODE_ENV);
+console.log("📍 Using Vercel rewrites for API proxy");
+console.log("🌍 NODE_ENV:", process.env.NODE_ENV);
 
 // Generic API call handler with error handling
 const apiCall = async (endpoint, options = {}) => {

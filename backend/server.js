@@ -30,28 +30,16 @@ const allowedPatterns = [
   /^https:\/\/my-portfolio-.*\.vercel\.app$/,
   /^https:\/\/.*-kolluri-hemanths-projects\.vercel\.app$/,
   /^https:\/\/.*\.vercel\.app$/,
+  /^https:\/\/my-portfolio-rho-nine-76\.vercel\.app$/,  // Production domain
   /^http:\/\/localhost:3000$/,
   /^http:\/\/localhost:3001$/,
 ];
 
-// CORS Middleware - Allow all Vercel deployments
+// CORS Middleware - Allow all origins (simplified for Vercel)
 app.use(
   cors({
-    origin: function (origin, callback) {
-      // Allow requests with no origin (like mobile apps, Postman, or server-to-server)
-      if (!origin) return callback(null, true);
-
-      const isAllowed = allowedPatterns.some((pattern) => pattern.test(origin));
-
-      if (isAllowed) {
-        console.log("✅ CORS ALLOWED ORIGIN:", origin);
-        callback(null, true);
-      } else {
-        console.log("❌ CORS BLOCKED ORIGIN:", origin);
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true,
+    origin: '*',  // Allow all origins
+    credentials: false,  // Must be false when origin is '*'
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization", "x-api-key"],
     preflightContinue: false,
